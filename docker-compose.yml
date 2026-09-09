@@ -5,7 +5,7 @@ services:
       context: .
       target: deps
     working_dir: /app
-    command: npm run dev
+    command: npm run dev -- --webpack
     ports:
       - "3000:3000"
     volumes:

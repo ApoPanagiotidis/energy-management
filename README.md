@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org) energy management website for an industrial and commercial audience.
+Apollo Green Solutions is a [Next.js](https://nextjs.org) energy management website for an industrial and commercial audience.
+
+## Design palette
+
+The core colours are sampled from the [Apollo Green Solutions website](https://www.apollo-gs.com/) and defined in `src/app/globals.css` as Tailwind theme tokens.
+
+| Colour | Hex | Usage |
+| --- | --- | --- |
+| Black | `#000000` | Header, homepage hero, footer, and body text on white |
+| White | `#FFFFFF` | Content backgrounds and text on black |
+| Blue | `#020CB1` | Headings and accents on light backgrounds (`brand`) |
+| Pale green | `#E3F5B9` | Buttons, active navigation, and accents on black (`accent`) |
+
+Pale-green buttons use black text. Page introductions support light and dark sections so their text remains readable on either background.
 
 ## Run with Docker
 
@@ -11,6 +24,8 @@ docker compose up --build
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Stop it with `Ctrl+C`, or run `docker compose down`.
+
+Docker development uses Webpack with file polling so edits on the Windows host are detected inside the container. After changing `docker-compose.yml`, run `docker compose up -d` to apply the updated configuration.
 
 ### Production image
 
