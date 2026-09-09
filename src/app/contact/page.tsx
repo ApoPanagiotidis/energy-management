@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
+import { Reveal } from "@/components/reveal";
 import { PageIntro } from "@/components/page-intro";
 import { ContactForm } from "@/components/contact-form";
 import { Building2, Gauge, Network } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Connect with Apollo Green Solutions to discuss energy monitoring for your industrial or commercial facility.",
-};
+export const metadata = pageMetadata(
+  "Contact",
+  "Connect with Apollo Green Solutions to discuss energy monitoring for your industrial or commercial facility.",
+  "/contact",
+);
 
 export default function ContactPage() {
   return (
@@ -39,7 +40,7 @@ export default function ContactPage() {
               <strong className="text-brand">Development preview.</strong> Messages are captured in a local test inbox and are not emailed to Apollo.
             </p>}
           </div>
-          <ContactForm />
+          <Reveal><ContactForm /></Reveal>
         </div>
       </section>
     </>

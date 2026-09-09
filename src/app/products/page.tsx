@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
+import { Reveal } from "@/components/reveal";
 import Link from "next/link";
 import { ArrowUpRight, Monitor, Radio, Workflow } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { ProductCard } from "@/components/product-card";
 import { products } from "@/lib/products";
 
-export const metadata: Metadata = {
-  title: "Products",
-  description:
-    "Compare KDK three-phase energy meters and the Modbus converter from Apollo Green Solutions. Explore specifications and discuss your facility’s requirements.",
-};
+export const metadata = pageMetadata(
+  "Products",
+  "Compare KDK three-phase energy meters and the Modbus converter from Apollo Green Solutions. Explore specifications and discuss your facility’s requirements.",
+  "/products",
+);
 
 export default function ProductsPage() {
   return (
@@ -26,7 +27,7 @@ export default function ProductsPage() {
             <p className="font-mono text-xs text-brand">{products.length} products · KDK hardware</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
-            {products.map((product) => <ProductCard key={product.id} product={product} />)}
+            {products.map((product) => <Reveal key={product.id}><ProductCard product={product} /></Reveal>)}
           </div>
         </div>
       </section>

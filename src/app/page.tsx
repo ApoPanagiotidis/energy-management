@@ -13,6 +13,14 @@ import {
   Wrench,
 } from "lucide-react";
 import { EnergyFlow } from "@/components/energy-flow";
+import { Reveal } from "@/components/reveal";
+import { pageMetadata } from "@/lib/metadata";
+
+export const metadata = pageMetadata(
+  "Energy Management",
+  "Energy monitoring solutions for industrial and commercial teams. Understand consumption, identify waste, and operate more efficiently.",
+  "/",
+);
 
 const benefits = [
   {
@@ -118,11 +126,13 @@ export default function Home() {
           </div>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {benefits.map(({ title, description, icon: Icon }) => (
-              <article key={title} className="border-t border-brand/25 pt-7">
-                <Icon size={28} className="text-brand" aria-hidden="true" />
-                <h3 className="mt-5 text-xl font-semibold tracking-tight text-brand">{title}</h3>
-                <p className="mt-3 text-base leading-7">{description}</p>
-              </article>
+              <Reveal key={title}>
+                <article className="border-t border-brand/25 pt-7">
+                  <Icon size={28} className="text-brand" aria-hidden="true" />
+                  <h3 className="mt-5 text-xl font-semibold tracking-tight text-brand">{title}</h3>
+                  <p className="mt-3 text-base leading-7">{description}</p>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -143,15 +153,17 @@ export default function Home() {
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {solutions.map(({ number, title, category, description, icon: Icon }) => (
-              <article key={title} className="rounded-2xl border border-brand/20 bg-white p-7 transition-colors hover:border-brand motion-reduce:transition-none">
-                <div className="flex items-center justify-between text-brand">
-                  <Icon size={32} aria-hidden="true" />
-                  <span className="font-mono text-xs" aria-hidden="true">/{number}</span>
-                </div>
-                <h3 className="mt-8 text-2xl font-medium tracking-tight text-brand">{title}</h3>
-                <p className="mt-2 text-sm font-semibold">{category}</p>
-                <p className="mt-4 leading-7">{description}</p>
-              </article>
+              <Reveal key={title}>
+                <article className="h-full rounded-2xl border border-brand/20 bg-white p-7 transition-colors hover:border-brand motion-reduce:transition-none">
+                  <div className="flex items-center justify-between text-brand">
+                    <Icon size={32} aria-hidden="true" />
+                    <span className="font-mono text-xs" aria-hidden="true">/{number}</span>
+                  </div>
+                  <h3 className="mt-8 text-2xl font-medium tracking-tight text-brand">{title}</h3>
+                  <p className="mt-2 text-sm font-semibold">{category}</p>
+                  <p className="mt-4 leading-7">{description}</p>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>

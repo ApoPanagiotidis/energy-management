@@ -34,6 +34,18 @@ Content is summarised from these company sources:
 - [Energy management systems](https://www.apollo-gs.com/energy-management)
 - [Company history, mission, and team](https://www.apollo-gs.com/about-us)
 
+## Motion, accessibility, and social previews
+
+Framer Motion powers the shared `Reveal` component: cards enter when scrolled into view, and `src/app/template.tsx` gives each page a short entry transition. The shared header and footer stay in place during navigation. The contact button also has hover and press feedback. All page content starts visible in the server HTML, and the device's reduced-motion preference disables these animations. See the [Motion reduced-motion guide](https://motion.dev/docs/react-use-reduced-motion).
+
+Navigation has an active-page indicator, visible keyboard focus, and a skip-to-content link. Contact errors are announced and focus moves to the first invalid field. Input borders and placeholder text use stronger contrast.
+
+Each page defines its own title, description, canonical URL, Open Graph, and Twitter metadata through `src/lib/metadata.ts`. `src/app/opengraph-image.tsx` generates a shared 1200 by 630 branded PNG with Next.js `ImageResponse`; inline styles are used only inside this image renderer because it does not load the website's Tailwind CSS. The supplied logo is also copied unchanged to `src/app/icon.jpg` for the browser icon.
+
+Set **`SITE_URL` to this project's public origin before building for deployment**, for example `https://your-project.vercel.app`. It defaults to `http://localhost:3000` during local development. This is your assignment's URL, not the real company's domain. Social networks cannot fetch previews from localhost. For Docker production builds, pass the variable into the build environment when deployment is configured in the next batch.
+
+To review this batch locally, navigate through all four pages, scroll the cards into view, and check a narrow mobile viewport. Press Tab from a fresh page to reach the skip link. Enable reduced motion in your device settings and reload to check that movement stops. The generated preview is available at `/opengraph-image`.
+
 ## Contact form and local inbox
 
 The Contact page validates name, email, and message in the browser and again in `POST /api/contact`. The server sends plain-text enquiries to [Mailpit](https://mailpit.axllent.org/docs/), a local development inbox. Success appears only after the inbox accepts the request. Failed submissions keep the entered text, and the Send button is disabled while a request is pending.

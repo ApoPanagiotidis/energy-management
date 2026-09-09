@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
+import { Reveal } from "@/components/reveal";
 import Link from "next/link";
 import { ArrowUpRight, MapPin, Target } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { team } from "@/lib/team";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "Meet the Apollo Green Solutions team and discover how our work in Germany and Greece connects energy hardware, software, and consulting.",
-};
+export const metadata = pageMetadata(
+  "About",
+  "Meet the Apollo Green Solutions team and discover how our work in Germany and Greece connects energy hardware, software, and consulting.",
+  "/about",
+);
 
 export default function AboutPage() {
   return (
@@ -49,10 +50,12 @@ export default function AboutPage() {
           <h2 id="team-heading" className="mt-4 text-3xl font-medium tracking-tight text-brand sm:text-4xl">Meet our team.</h2>
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {team.map(({ name, role, initials }) => (
-              <li key={name} className="rounded-2xl border border-brand/20 p-6">
+              <li key={name}>
+                <Reveal className="h-full rounded-2xl border border-brand/20 p-6">
                 <div aria-hidden="true" className="flex size-16 items-center justify-center rounded-2xl bg-accent font-mono text-xl text-brand">{initials}</div>
                 <h3 className="mt-6 text-xl font-semibold tracking-tight text-brand">{name}</h3>
                 <p className="mt-2 text-sm leading-6">{role}</p>
+                </Reveal>
               </li>
             ))}
           </ul>
