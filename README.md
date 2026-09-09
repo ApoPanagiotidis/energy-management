@@ -1,22 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) energy management website for an industrial and commercial audience.
+
+## Run with Docker
+
+### Development
+
+Start the development server with hot reload:
+
+```bash
+docker compose up --build
+```
+
+Open [http://localhost:3000](http://localhost:3000). Stop it with `Ctrl+C`, or run `docker compose down`.
+
+### Production image
+
+Build and run the optimized standalone image:
+
+```bash
+docker build -t energy-management .
+docker run --rm -p 3000:3000 energy-management
+```
+
+The Dockerfile uses a multi-stage build so the final image contains only the standalone Next.js server and production assets.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
