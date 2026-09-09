@@ -8,7 +8,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Core palette sampled from https://www.apollo-gs.com/. */
   --color-brand: #020cb1;
   --color-accent: #e3f5b9;
   --color-ink: #000000;
