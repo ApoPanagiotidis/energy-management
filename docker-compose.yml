@@ -15,3 +15,19 @@ services:
     environment:
       NODE_ENV: development
       WATCHPACK_POLLING: "true"
+      MAILPIT_URL: http://mailpit:8025
+    depends_on:
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit:v1.31.1
+    ports:
+      - "127.0.0.1:8025:8025"
+    environment:
+      MP_DATABASE: /data/mailpit.db
+      MP_MAX_MESSAGES: "500"
+    volumes:
+      - mailpit-data:/data
+
+volumes:
+  mailpit-data:

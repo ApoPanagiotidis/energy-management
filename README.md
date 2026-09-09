@@ -34,6 +34,27 @@ Content is summarised from these company sources:
 - [Energy management systems](https://www.apollo-gs.com/energy-management)
 - [Company history, mission, and team](https://www.apollo-gs.com/about-us)
 
+## Contact form and local inbox
+
+The Contact page validates name, email, and message in the browser and again in `POST /api/contact`. The server sends plain-text enquiries to [Mailpit](https://mailpit.axllent.org/docs/), a local development inbox. Success appears only after the inbox accepts the request. Failed submissions keep the entered text, and the Send button is disabled while a request is pending.
+
+Start or update the development services:
+
+```bash
+docker compose up -d
+```
+
+1. Open [Contact](http://localhost:3000/contact) and submit a test enquiry.
+2. Open [the local inbox](http://localhost:8025) to read it.
+
+The inbox uses a Docker volume, so messages survive container restarts. Its web interface is bound to your local machine. The configured `apollo.example` addresses are test addresses; no email is sent to the real company.
+
+For development outside Docker, start the inbox with `docker compose up -d mailpit`, copy `.env.example` to `.env.local`, and run `npm run dev`. Compose sets `MAILPIT_URL=http://mailpit:8025` for its app container; `.env.example` uses `http://localhost:8025` for a host-run app. Neither variable is public.
+
+**Deployment requirement:** Mailpit capture is deliberately disabled in production. A live email provider and recipient must be configured in a later batch before the deployed form can send messages. Until then, production submissions return an unavailable response rather than a false success.
+
+Run contact validation and delivery tests with `npm test` (Node.js 22.18 or newer). Run `npm run lint` for lint checks.
+
 ## Run with Docker
 
 ### Development
