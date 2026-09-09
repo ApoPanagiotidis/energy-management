@@ -13,6 +13,12 @@ The core colours are sampled from the [Apollo Green Solutions website](https://w
 
 Pale-green buttons use black text. Page introductions support light and dark sections so their text remains readable on either background.
 
+## Homepage and branding
+
+The homepage introduces the company through a hero, an energy-flow illustration, business benefits, solution highlights, and a contact call to action. The illustration explains the monitoring process; it does not represent live telemetry.
+
+The supplied company logo is stored unchanged at `public/images/apollo-logo.jpg`. A shared `Brand` component displays it with the company name in the header and footer. The JPEG is 200 by 200 pixels and is displayed at 44 by 44 pixels.
+
 ## Run with Docker
 
 ### Development

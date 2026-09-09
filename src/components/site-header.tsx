@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Leaf } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Brand } from "@/components/brand";
 import { navigation } from "@/lib/navigation";
 
 export function SiteHeader() {
@@ -16,13 +17,7 @@ export function SiteHeader() {
           aria-label="Apollo Green Solutions home"
           className="flex items-center gap-3 rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
-          <span className="flex size-10 items-center justify-center rounded-xl bg-accent text-ink">
-            <Leaf size={22} aria-hidden="true" />
-          </span>
-          <span>
-            <span className="block text-xl leading-6 font-bold tracking-tight">Apollo</span>
-            <span className="block text-xs font-medium tracking-wide text-accent">Green Solutions</span>
-          </span>
+          <Brand />
         </Link>
         <nav aria-label="Main navigation" className="order-last w-full md:order-none md:w-auto">
           <ul className="flex items-center justify-between gap-2 md:gap-6">
