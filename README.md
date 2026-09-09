@@ -19,6 +19,21 @@ The homepage introduces the company through a hero, an energy-flow illustration,
 
 The supplied company logo is stored unchanged at `public/images/apollo-logo.jpg`. A shared `Brand` component displays it with the company name in the header and footer. The JPEG is 200 by 200 pixels and is displayed at 44 by 44 pixels.
 
+## Products and About content
+
+Product names, descriptions, and key specifications live in `src/lib/products.ts`; the reusable `ProductCard` component renders them as a responsive catalogue. Each card links to Contact for enquiries and to the original listing for full specifications. The CT meter's current rating refers to its transformer input.
+
+Team names and roles live in `src/lib/team.ts`. Team cards use initials. The About page covers the company's origins, mission, and operations in Germany and Greece.
+
+Content is summarised from these company sources:
+
+- [KDK COUNT3 PRO](https://www.apollo-gs.com/product-page/kdk-count3-pro)
+- [KDK COUNT3 CAGE CLAMP](https://www.apollo-gs.com/product-page/kdk-count3-cage-clamp-push-in)
+- [KDK COUNT CT CAGE CLAMP](https://www.apollo-gs.com/product-page/kdk-count-ct-cage-clamp-push-in)
+- [KDK CONVERTER](https://www.apollo-gs.com/product-page/kdk-converter-modbus-rtu-to-modbus-tcp)
+- [Energy management systems](https://www.apollo-gs.com/energy-management)
+- [Company history, mission, and team](https://www.apollo-gs.com/about-us)
+
 ## Run with Docker
 
 ### Development
