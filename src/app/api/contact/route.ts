@@ -25,8 +25,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    await deliverContact(result.data);
-    return Response.json({ success: true, message: "Your message was saved to the local test inbox." });
+    const delivery = await deliverContact(result.data);
+    return Response.json({
+      success: true,
+      message: delivery === "local"
+        ? "Your message was saved to the local test inbox."
+        : "Thank you. Your enquiry has been accepted for email delivery.",
+    });
   } catch (error) {
     const unavailable = error instanceof ContactDeliveryError && error.code === "NOT_CONFIGURED";
     return Response.json({

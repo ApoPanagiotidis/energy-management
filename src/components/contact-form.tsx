@@ -102,7 +102,7 @@ export function ContactForm() {
           {feedback.message}
         </p>}
       </div>
-      <motion.button type="submit" disabled={pending} whileHover={reducedMotion || pending ? undefined : { scale: 1.02 }} whileTap={reducedMotion || pending ? undefined : { scale: 0.98 }} transition={{ duration: 0.15 }} className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand disabled:cursor-wait disabled:opacity-60 sm:w-auto">
+      <motion.button type="submit" tabIndex={0} disabled={pending} whileHover={reducedMotion || pending ? undefined : { scale: 1.02 }} whileTap={reducedMotion || pending ? undefined : { scale: 0.98 }} transition={{ duration: 0.15 }} className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand disabled:cursor-wait disabled:opacity-60 sm:w-auto">
         {pending ? "Sending…" : "Send message"}
         {pending ? <LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <ArrowUpRight size={18} aria-hidden="true" />}
       </motion.button>

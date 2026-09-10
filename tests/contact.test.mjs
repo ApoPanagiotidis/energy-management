@@ -58,3 +58,55 @@ test("blocks local capture in production and when not configured", async () => {
     await assert.rejects(deliverContact(enquiry, config, async () => { assert.fail("Must not contact Mailpit"); }), error => error.code === "NOT_CONFIGURED");
   }
 });
+
+const production = {
+  NODE_ENV: "production",
+  RESEND_API_KEY: "test-key-not-a-real-secret",
+  CONTACT_FROM_EMAIL: "website@example.test",
+  CONTACT_TO_EMAIL: "owner@example.test",
+};
+
+test("production sends plain text to the configured owner with visitor reply-to", async () => {
+  const result = await deliverContact(enquiry, { ...production, MAILPIT_URL: environment.MAILPIT_URL }, async (url, options) => {
+    assert.equal(url, "https://api.resend.com/emails");
+    assert.equal(options.headers.Authorization, `Bearer ${production.RESEND_API_KEY}`);
+    const payload = JSON.parse(options.body);
+    assert.equal(payload.from, production.CONTACT_FROM_EMAIL);
+    assert.deepEqual(payload.to, [production.CONTACT_TO_EMAIL]);
+    assert.equal(payload.reply_to, enquiry.email);
+    assert.ok(payload.text.includes(enquiry.message));
+    assert.equal(payload.html, undefined);
+    return Response.json({ id: "accepted-enquiry" });
+  });
+  assert.equal(result, "email");
+});
+
+test("every production setting is required before contacting the provider", async () => {
+  for (const key of ["RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_TO_EMAIL"]) {
+    await assert.rejects(deliverContact(enquiry, { ...production, [key]: " " }, async () => {
+      assert.fail("Must not send with incomplete configuration");
+    }), error => error.code === "NOT_CONFIGURED");
+  }
+});
+
+test("provider failures and malformed acceptances never become success or expose secrets", async () => {
+  for (const send of [
+    async () => new Response("provider secret detail", { status: 403 }),
+    async () => Response.json({ error: "rejected" }),
+    async () => Response.json({ id: "" }),
+    async () => new Response("not JSON"),
+    async () => { throw new Error(production.RESEND_API_KEY); },
+  ]) {
+    await assert.rejects(deliverContact(enquiry, production, send), error =>
+      error instanceof ContactDeliveryError && error.code === "UNAVAILABLE" && error.message === "UNAVAILABLE");
+  }
+});
+
+test("development stays local even if live email credentials are present", async () => {
+  const result = await deliverContact(enquiry, { ...production, ...environment }, async (url, options) => {
+    assert.equal(String(url), "http://mailpit:8025/api/v1/send");
+    assert.equal(options.headers.Authorization, undefined);
+    return Response.json({ ID: "local-only" });
+  });
+  assert.equal(result, "local");
+});

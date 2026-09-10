@@ -1,4 +1,43 @@
-Apollo Green Solutions is a [Next.js](https://nextjs.org) energy management website for an industrial and commercial audience.
+# Apollo Green Solutions
+
+A responsive energy-management website for an industrial and commercial audience, built as a web developer assignment using Apollo Green Solutions branding and company information.
+
+- **Repository:** [ApoPanagiotidis/energy-management](https://github.com/ApoPanagiotidis/energy-management)
+- **Live demo:** Pending Vercel deployment. Replace this line with the verified public URL before submission.
+- **Stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Framer Motion, Lucide icons, Docker, Mailpit, and Resend.
+
+## Features and structure
+
+| Route | Content |
+| --- | --- |
+| Home | Hero, energy-flow illustration, business benefits, solutions, contact CTA |
+| Products | Four hardware products with specifications and enquiry links |
+| About | Company background, mission, and team |
+| Contact | Validated name, email, and message form with pending, success, and error states |
+
+Pages and metadata render on the server. Small client components handle active navigation, animations, and form interaction. Product and team content live in `src/lib/products.ts` and `src/lib/team.ts`; delivery configuration stays in the server-side contact helper.
+
+## Quick start
+
+Install Docker Desktop, then run:
+
+```bash
+docker compose up --build
+```
+
+Open [the website](http://localhost:3000) and [the development inbox](http://localhost:8025).
+
+Without Docker for the app, use Node.js 22.18 or newer, run `npm ci`, copy `.env.example` to `.env.local`, start Mailpit with `docker compose up -d mailpit`, and run `npm run dev`.
+
+## Checks
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+Tests cover validation, local inbox capture, production recipient selection, missing configuration, and provider failures. The email provider is mocked in tests; running them sends no live email.
 
 ## Design palette
 
@@ -42,7 +81,7 @@ Navigation has an active-page indicator, visible keyboard focus, and a skip-to-c
 
 Each page defines its own title, description, canonical URL, Open Graph, and Twitter metadata through `src/lib/metadata.ts`. `src/app/opengraph-image.tsx` generates a shared 1200 by 630 branded PNG with Next.js `ImageResponse`; inline styles are used only inside this image renderer because it does not load the website's Tailwind CSS. The supplied logo is also copied unchanged to `src/app/icon.jpg` for the browser icon.
 
-Set **`SITE_URL` to this project's public origin before building for deployment**, for example `https://your-project.vercel.app`. It defaults to `http://localhost:3000` during local development. This is your assignment's URL, not the real company's domain. Social networks cannot fetch previews from localhost. For Docker production builds, pass the variable into the build environment when deployment is configured in the next batch.
+Set `SITE_URL` to your public origin before building on hosts other than Vercel. On Vercel, leave it unset to use `VERCEL_PROJECT_PRODUCTION_URL`, with `VERCEL_URL` as a fallback. Locally it defaults to `http://localhost:3000`. An explicit `SITE_URL` always wins, so do not copy the localhost value into Vercel. This is the assignment's URL, not the real company's domain. Social networks cannot fetch localhost previews. `/sitemap.xml` lists the four pages; `/robots.txt` discourages crawling local and Vercel preview deployments.
 
 To review this batch locally, navigate through all four pages, scroll the cards into view, and check a narrow mobile viewport. Press Tab from a fresh page to reach the skip link. Enable reduced motion in your device settings and reload to check that movement stops. The generated preview is available at `/opengraph-image`.
 
@@ -63,7 +102,7 @@ The inbox uses a Docker volume, so messages survive container restarts. Its web 
 
 For development outside Docker, start the inbox with `docker compose up -d mailpit`, copy `.env.example` to `.env.local`, and run `npm run dev`. Compose sets `MAILPIT_URL=http://mailpit:8025` for its app container; `.env.example` uses `http://localhost:8025` for a host-run app. Neither variable is public.
 
-**Deployment requirement:** Mailpit capture is deliberately disabled in production. A live email provider and recipient must be configured in a later batch before the deployed form can send messages. Until then, production submissions return an unavailable response rather than a false success.
+**Production delivery:** Production uses Resend when `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, and `CONTACT_TO_EMAIL` are configured. The recipient and sender come from server settings; the visitor's email is used only as Reply-To. The message is plain text. Missing settings, rejected requests, and malformed provider responses produce an unavailable response. Success means the provider accepted the message for delivery; it does not confirm inbox arrival. Development always uses Mailpit, even when Resend settings exist.
 
 Run contact validation and delivery tests with `npm test` (Node.js 22.18 or newer). Run `npm run lint` for lint checks.
 
@@ -86,38 +125,34 @@ Docker development uses Webpack with file polling so edits on the Windows host a
 Build and run the optimized standalone image:
 
 ```bash
-docker build -t energy-management .
-docker run --rm -p 3000:3000 energy-management
+docker build --build-arg SITE_URL=https://your-project.example -t energy-management .
+docker run --rm -p 3000:3000 --env-file .env.production.local energy-management
 ```
 
-The Dockerfile uses a multi-stage build so the final image contains only the standalone Next.js server and production assets.
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The Dockerfile uses a multi-stage build and runs the standalone server as a non-root user. Replace the example build URL with your actual origin. Create an ignored `.env.production.local` containing the three email settings for this command; pass credentials at runtime, never as image build arguments.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Commit this batch in GitHub Desktop, then click **Push origin**.
+2. In [Vercel New Project](https://vercel.com/new), import `ApoPanagiotidis/energy-management`. Use the Next.js preset, repository root, and Node.js 22.x or newer. Keep the detected install/build/output settings. Vercel builds Next.js directly; Docker Compose and Mailpit remain local tools.
+3. Create a [Resend account](https://resend.com/) and a sending API key. Add the following variables to the Vercel project's **Production** environment:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Value |
+| --- | --- |
+| `RESEND_API_KEY` | Your private sending API key |
+| `CONTACT_FROM_EMAIL` | `onboarding@resend.dev` for the assignment demonstration |
+| `CONTACT_TO_EMAIL` | The email address used to register your Resend account |
+| `SITE_URL` | Optional: your full public origin; otherwise use Vercel's automatic domain |
+
+The Resend test sender can send only to your account address. To use another recipient, verify a domain you control and set a sender on that domain. See [Resend's test-domain restriction](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain) and [sending API](https://resend.com/docs/api-reference/emails/send-email). Never use the real company's address or domain unless you have its permission. Keep credentials in Vercel settings or ignored local env files, not GitHub or client-facing variables.
+
+4. Deploy. After changing environment variables, redeploy for the changes to take effect. Preview deployments need their own email settings to send; leaving them unset keeps the form unavailable there.
+5. Open the deployed Home, Products, About, and Contact pages on desktop and mobile. Submit a clearly labelled test enquiry to your own configured inbox and confirm receipt. Also try an invalid email and a short message.
+6. Check `/opengraph-image`, `/sitemap.xml`, and page-source canonical/social URLs. Confirm none point to localhost. Open the production link in a private browser window to confirm the reviewer can access it.
+7. Replace the **Live demo** line at the top of this README with the verified URL. Confirm the GitHub repository is public, as required by the assignment, then commit and push that final documentation update.
+
+## Scope and remaining checks
+
+This is an assignment demonstration, not the company's official website. It contains no live energy telemetry, CMS, customer accounts, or fabricated performance statistics. Team cards use initials, and company/product sources are linked above.
+
+Local email tests use Mailpit. Resend integration tests use mocked responses; actual inbox delivery and the public deployment must be verified after account configuration. The API validates fields and caps accepted payload size, but this demonstration does not include a distributed rate limiter or CAPTCHA. Configure abuse protection before using the form as an actively promoted public contact channel.
