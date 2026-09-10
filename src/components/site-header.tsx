@@ -10,7 +10,7 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-white/25 bg-ink text-white">
+    <header id="site-top" tabIndex={-1} className="border-b border-white/25 bg-ink text-white">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-5 lg:px-8">
         <Link
           href="/"
