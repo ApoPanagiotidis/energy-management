@@ -22,7 +22,7 @@ export function SiteHeader() {
         <nav aria-label="Main navigation" className="order-last w-full md:order-none md:w-auto">
           <ul className="flex items-center justify-between gap-2 md:gap-6">
             {navigation.map(({ label, href }) => (
-              <li key={href}>
+              <li key={href} className={href === "/contact" ? "lg:hidden" : undefined}>
                 <Link
                   href={href}
                   aria-current={pathname === href ? "page" : undefined}
@@ -40,7 +40,8 @@ export function SiteHeader() {
         </nav>
         <Link
           href="/contact"
-          className="hidden min-h-11 items-center gap-2 rounded-lg border border-white px-4 text-sm font-semibold text-white transition-colors hover:border-accent hover:bg-accent hover:text-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent lg:inline-flex"
+          aria-current={pathname === "/contact" ? "page" : undefined}
+          className="hidden min-h-11 items-center gap-2 rounded-lg border border-white px-4 text-sm font-semibold text-white transition-colors hover:border-accent hover:bg-accent hover:text-ink aria-[current=page]:border-accent aria-[current=page]:bg-accent aria-[current=page]:text-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent lg:inline-flex"
         >
           Get in touch <ArrowUpRight size={16} aria-hidden="true" />
         </Link>
