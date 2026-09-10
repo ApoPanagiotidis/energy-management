@@ -1,35 +1,156 @@
-# Apollo Green Solutions
+﻿# Apollo Green Solutions
 
-A responsive energy-management website for an industrial and commercial audience, built as a web developer assignment using Apollo Green Solutions branding and company information.
+<img src="public/images/apollo-logo.jpg" alt="Apollo Green Solutions logo" width="64" height="64" />
 
-- **Repository:** [ApoPanagiotidis/energy-management](https://github.com/ApoPanagiotidis/energy-management)
-- **Live demo:** Pending Vercel deployment. Replace this line with the verified public URL before submission.
-- **Stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Framer Motion, Lucide icons, Docker, Mailpit, and Resend.
+**Make every watt count.**
 
-## Features and structure
+A responsive B2B website presenting energy monitoring hardware, software, and expertise for industrial and commercial facilities. Built as a web developer assignment using Apollo Green Solutions branding and company information.
 
-| Route | Content |
+**[View the live demo](https://energy-management-rosy.vercel.app)** · **[GitHub repository](https://github.com/ApoPanagiotidis/energy-management)**
+
+> **Contact delivery is local only.** Run the project with Docker to submit enquiries to Mailpit. The public website displays the form and validates inputs, but valid submissions return a delivery-unavailable message because live email is not configured.
+
+## Contents
+
+- [Features](#features)
+- [Technology and design](#technology-and-design)
+- [Run locally](#run-locally)
+- [Project structure](#project-structure)
+- [Verification](#verification)
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [Content sources and scope](#content-sources-and-scope)
+
+## Features
+
+| Page | What it includes |
 | --- | --- |
-| Home | Hero, energy-flow illustration, business benefits, solutions, contact CTA |
-| Products | Four hardware products with specifications and enquiry links |
-| About | Company background, mission, and team |
-| Contact | Validated name, email, and message form with pending, success, and error states |
+| `/` — Home | Hero, energy-flow illustration, business benefits, solutions, and contact calls to action |
+| `/products` — Products | Four hardware products with descriptions, specifications, enquiry links, and original product sources |
+| `/about` — About | Company background, mission, operations, and team cards |
+| `/contact` — Contact | Name, email, and message form with validation, pending feedback, success messages, and recoverable errors |
 
-Pages and metadata render on the server. Small client components handle active navigation, animations, and form interaction. Product and team content live in `src/lib/products.ts` and `src/lib/team.ts`; delivery configuration stays in the server-side contact helper.
+- Responsive layouts with shared branding and an active-page indicator.
+- A desktop **Get in touch** button and mobile **Contact** navigation link; footer navigation contains Home, Products, and About.
+- Framer Motion scroll reveals, page entry transitions, and button interactions that respect reduced-motion preferences.
+- Visible keyboard focus, a skip-to-content link, an accessible Back to top link, and announced form errors.
+- Page-specific titles, descriptions, canonical URLs, Open Graph and Twitter metadata, a branded social image, sitemap, and robots rules.
 
-## Quick start
+## Technology and design
 
-Install Docker Desktop, then run:
+| Technology | Role |
+| --- | --- |
+| Next.js 16 App Router + React 19 | Routing, server-rendered pages, metadata, and contact API |
+| TypeScript | Typed content, components, and validation |
+| Tailwind CSS 4 | Responsive layouts and shared colour tokens |
+| Framer Motion | Scroll reveals, page transitions, and microinteractions |
+| Lucide React | Interface and feature icons |
+| Docker Compose + Mailpit | Local development and a test inbox |
+| Node.js test runner + ESLint | Validation/delivery tests and code checks |
+| Vercel | Website hosting |
+
+An optional Resend HTTP integration is implemented but inactive without production credentials. Exact dependency versions are recorded in [package.json](package.json) and [package-lock.json](package-lock.json).
+
+### Visual identity
+
+The core palette was sampled from the [Apollo Green Solutions website](https://www.apollo-gs.com/) and is defined in [globals.css](src/app/globals.css).
+
+| Colour | Hex | Use |
+| --- | --- | --- |
+| Black | `#000000` | Header, hero, footer, and body text |
+| White | `#FFFFFF` | Content surfaces and text on dark backgrounds |
+| Blue | `#020CB1` | Headings, buttons, illustrations, and CTA sections |
+| Pale green | `#E3F5B9` | Highlights, active navigation, buttons, and supporting sections |
+
+Large headings and spacious sections establish a clear reading order. Product specifications use definition lists for quick comparison. Team cards use initials, and the homepage illustration explains the monitoring process without presenting simulated data as live telemetry.
+
+The supplied logo is stored unchanged in [public/images/apollo-logo.jpg](public/images/apollo-logo.jpg) and reused in the header, footer, browser icon, and social preview. Geist fonts are loaded through `next/font`. Website styling uses Tailwind; the social image uses inline styles because Next.js `ImageResponse` renders outside the browser stylesheet.
+
+## Run locally
+
+### Docker — app and inbox together
+
+**Prerequisites:** Git and Docker Desktop with the Docker engine running.
 
 ```bash
+git clone https://github.com/ApoPanagiotidis/energy-management.git
+cd energy-management
 docker compose up --build
 ```
 
-Open [the website](http://localhost:3000) and [the development inbox](http://localhost:8025).
+| Service | Local address |
+| --- | --- |
+| Website | [localhost:3000](http://localhost:3000) |
+| Contact form | [localhost:3000/contact](http://localhost:3000/contact) |
+| Mailpit inbox | [localhost:8025](http://localhost:8025) |
 
-Without Docker for the app, use Node.js 22.18 or newer, run `npm ci`, copy `.env.example` to `.env.local`, start Mailpit with `docker compose up -d mailpit`, and run `npm run dev`.
+No email account, API key, or `.env.local` file is needed for this workflow. Compose supplies the internal Mailpit address automatically.
 
-## Checks
+Submit a test enquiry through Contact, then open Mailpit to read it. Messages are plain text and use `apollo.example` test addresses; they are not sent to the real company. The inbox is bound to the local machine and its Docker volume preserves messages across restarts.
+
+Press `Ctrl+C` to stop an attached run. To start in the background or stop the services:
+
+```bash
+docker compose up -d
+docker compose down
+```
+
+Development uses Webpack and file polling so Windows host edits are detected inside Docker. After changing Compose settings, run `docker compose up -d` again.
+
+### Node.js app with a Docker inbox
+
+Use Node.js **22.18 or newer**, npm, and Docker Desktop. From the repository root:
+
+```bash
+npm ci
+docker compose up -d mailpit
+```
+
+Copy `.env.example` to `.env.local`. In PowerShell:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+Then start the app:
+
+```bash
+npm run dev
+```
+
+The example uses `MAILPIT_URL=http://localhost:8025` for the host-run app. If the Docker app already occupies port 3000, stop just that service with `docker compose stop app` before starting Node.js.
+
+## Project structure
+
+```text
+src/
+  app/
+    page.tsx                 Home page
+    products/page.tsx        Product catalogue
+    about/page.tsx           Company and team
+    contact/page.tsx         Contact page
+    api/contact/route.ts     Validated submission endpoint
+    layout.tsx               Shared layout, fonts, and metadata base
+    template.tsx             Page entry transition
+    globals.css              Tailwind theme and brand colours
+    opengraph-image.tsx       Generated social preview
+    robots.ts / sitemap.ts   Search engine metadata
+  components/                Shared UI, contact form, and motion wrapper
+  lib/
+    products.ts / team.ts    Editable product and team content
+    navigation.ts            Shared route definitions
+    contact.ts               Browser and server validation
+    contact-delivery.ts      Mailpit and optional email delivery
+    metadata.ts              Page metadata and deployment URLs
+public/images/               Supplied company logo
+tests/contact.test.mjs        Validation and delivery tests
+```
+
+Pages remain Server Components. Small Client Components handle active navigation, form state, and animation. Content starts visible in server-rendered HTML before motion is applied.
+
+## Verification
+
+Run these commands after installing dependencies:
 
 ```bash
 npm test
@@ -37,126 +158,92 @@ npm run lint
 npm run build
 ```
 
-Tests cover validation, local inbox capture, production recipient selection, missing configuration, and provider failures. The email provider is mocked in tests; running them sends no live email.
+Tests cover validation, normalization, field length limits, local capture, fixed production recipients, missing settings, and provider failures. Production email responses are mocked; the suite sends no live email. The production build also checks TypeScript.
 
-## Design palette
+### Reviewer checklist
 
-The core colours are sampled from the [Apollo Green Solutions website](https://www.apollo-gs.com/) and defined in `src/app/globals.css` as Tailwind theme tokens.
+- Open all four pages on desktop and mobile and check for horizontal overflow.
+- Navigate with the keyboard; check the skip link, visible focus, and Back to top link.
+- Enable reduced motion in device settings and confirm that movement stops.
+- Submit empty fields, an invalid email, and a message shorter than 10 characters. Confirm the first invalid field receives focus.
+- Submit a valid enquiry locally and confirm it appears in Mailpit and the form clears.
+- On the public deployment, confirm submission shows an unavailable message and preserves the entered text.
+- Open `/opengraph-image`, `/sitemap.xml`, and `/robots.txt`; check that production canonical and social URLs use the deployed domain.
 
-| Colour | Hex | Usage |
+### Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Port 3000 is already in use | Run either the Docker app or the host Node.js app on that port |
+| Local form cannot deliver | Confirm Mailpit is running and `MAILPIT_URL` matches the chosen workflow |
+| Docker edits are not reflected | Keep the Compose Webpack/polling settings and apply configuration changes with `docker compose up -d` |
+| Build cannot download Geist fonts | The build needs access to Google Fonts; check network or proxy settings |
+| Vercel reports missing `next-server.js.nft.json` | Deploy the latest `next.config.ts`, which disables standalone output on Vercel |
+
+## Deployment
+
+### Vercel
+
+1. Commit changes and push the repository to GitHub.
+2. Import `ApoPanagiotidis/energy-management` at [Vercel New Project](https://vercel.com/new).
+3. Use the **Next.js** preset, repository root (`./`), and `master` production branch. Keep the detected build/output settings.
+4. For the current local-only contact setup, leave environment variables empty. Remove automatically detected `MAILPIT_URL`, localhost `SITE_URL`, and email settings.
+5. Deploy, then open the production URL in a private browser window to check reviewer access. Confirm the repository is public before assignment submission.
+
+Vercel builds the app directly. Docker Compose and Mailpit remain local tools. The configuration disables standalone output when `VERCEL=1`, avoiding the [Next.js 16.3 adapter/standalone tracing conflict](https://github.com/vercel/next.js/issues/96646); Docker builds keep standalone output.
+
+The deployed URL is linked at the top of this README. Update that link if the production domain changes.
+
+### Production Docker image
+
+To preview production behavior locally, stop the development app if it uses port 3000, then run:
+
+```bash
+docker build -t energy-management .
+docker run --rm -p 3000:3000 energy-management
+```
+
+The multi-stage image runs a standalone Next.js server as a non-root user. As on the unconfigured Vercel deployment, production submissions return an unavailable response; Mailpit is used only in development.
+
+For a public Docker deployment, pass the actual public origin at build time:
+
+```bash
+docker build --build-arg SITE_URL=https://your-domain.example -t energy-management .
+```
+
+## Configuration
+
+Use [.env.example](.env.example) as a reference. Keep actual secrets in ignored local env files or hosting settings.
+
+| Variable | Purpose | Current setup |
 | --- | --- | --- |
-| Black | `#000000` | Header, homepage hero, footer, and body text on white |
-| White | `#FFFFFF` | Content backgrounds and text on black |
-| Blue | `#020CB1` | Headings and accents on light backgrounds (`brand`) |
-| Pale green | `#E3F5B9` | Buttons, active navigation, and accents on black (`accent`) |
+| `MAILPIT_URL` | Local inbox API address | Set by Compose, or `http://localhost:8025` for host development |
+| `SITE_URL` | Explicit public origin for canonical/social URLs | Leave unset on Vercel; defaults to localhost outside a deployment |
+| `RESEND_API_KEY` | Optional production email API key | Unset |
+| `CONTACT_FROM_EMAIL` | Optional production sender | Unset on the deployment |
+| `CONTACT_TO_EMAIL` | Optional production recipient | Unset |
 
-Pale-green buttons use black text. Page introductions support light and dark sections so their text remains readable on either background.
+Without `SITE_URL`, the app uses `VERCEL_PROJECT_PRODUCTION_URL`, then `VERCEL_URL`, then `http://localhost:3000`. An explicit `SITE_URL` takes priority. Robots rules discourage crawling localhost and Vercel preview deployments.
 
-## Homepage and branding
+### Optional live email
 
-The homepage introduces the company through a hero, an energy-flow illustration, business benefits, solution highlights, and a contact call to action. The illustration explains the monitoring process; it does not represent live telemetry.
+Resend support is implemented for future use; it is not required for local development. To enable it, configure all three email variables in the hosting environment and redeploy. The visitor's address is used as Reply-To; sender and recipient are fixed server settings. Development continues using Mailpit even if Resend credentials exist.
 
-The supplied company logo is stored unchanged at `public/images/apollo-logo.jpg`. A shared `Brand` component displays it with the company name in the header and footer. The JPEG is 200 by 200 pixels and is displayed at 44 by 44 pixels.
+Resend's `onboarding@resend.dev` test sender can send only to the email associated with the Resend account. Other recipients require a sender on a verified domain. See [Resend's test-domain restriction](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain). Credentials belong in server settings, never `NEXT_PUBLIC_` variables.
 
-## Products and About content
+A success response means the provider accepted the message for delivery, not that it reached the recipient's inbox. Live email delivery has not been verified in the current setup.
 
-Product names, descriptions, and key specifications live in `src/lib/products.ts`; the reusable `ProductCard` component renders them as a responsive catalogue. Each card links to Contact for enquiries and to the original listing for full specifications. The CT meter's current rating refers to its transformer input.
+## Content sources and scope
 
-Team names and roles live in `src/lib/team.ts`. Team cards use initials. The About page covers the company's origins, mission, and operations in Germany and Greece.
-
-Content is summarised from these company sources:
+The company website provided the reference material for the branding, product catalogue, and company overview:
 
 - [KDK COUNT3 PRO](https://www.apollo-gs.com/product-page/kdk-count3-pro)
 - [KDK COUNT3 CAGE CLAMP](https://www.apollo-gs.com/product-page/kdk-count3-cage-clamp-push-in)
 - [KDK COUNT CT CAGE CLAMP](https://www.apollo-gs.com/product-page/kdk-count-ct-cage-clamp-push-in)
 - [KDK CONVERTER](https://www.apollo-gs.com/product-page/kdk-converter-modbus-rtu-to-modbus-tcp)
 - [Energy management systems](https://www.apollo-gs.com/energy-management)
-- [Company history, mission, and team](https://www.apollo-gs.com/about-us)
+- [Company history and mission](https://www.apollo-gs.com/about-us)
 
-## Motion, accessibility, and social previews
+Team content is maintained separately in `src/lib/team.ts`; the cards use initials and should not be treated as a verified current company staff directory.
 
-Framer Motion powers the shared `Reveal` component: cards enter when scrolled into view, and `src/app/template.tsx` gives each page a short entry transition. The shared header and footer stay in place during navigation. The contact button also has hover and press feedback. All page content starts visible in the server HTML, and the device's reduced-motion preference disables these animations. See the [Motion reduced-motion guide](https://motion.dev/docs/react-use-reduced-motion).
-
-Navigation has an active-page indicator, visible keyboard focus, and a skip-to-content link. Contact errors are announced and focus moves to the first invalid field. Input borders and placeholder text use stronger contrast.
-
-Each page defines its own title, description, canonical URL, Open Graph, and Twitter metadata through `src/lib/metadata.ts`. `src/app/opengraph-image.tsx` generates a shared 1200 by 630 branded PNG with Next.js `ImageResponse`; inline styles are used only inside this image renderer because it does not load the website's Tailwind CSS. The supplied logo is also copied unchanged to `src/app/icon.jpg` for the browser icon.
-
-Set `SITE_URL` to your public origin before building on hosts other than Vercel. On Vercel, leave it unset to use `VERCEL_PROJECT_PRODUCTION_URL`, with `VERCEL_URL` as a fallback. Locally it defaults to `http://localhost:3000`. An explicit `SITE_URL` always wins, so do not copy the localhost value into Vercel. This is the assignment's URL, not the real company's domain. Social networks cannot fetch localhost previews. `/sitemap.xml` lists the four pages; `/robots.txt` discourages crawling local and Vercel preview deployments.
-
-To review this batch locally, navigate through all four pages, scroll the cards into view, and check a narrow mobile viewport. Press Tab from a fresh page to reach the skip link. Enable reduced motion in your device settings and reload to check that movement stops. The generated preview is available at `/opengraph-image`.
-
-## Contact form and local inbox
-
-The Contact page validates name, email, and message in the browser and again in `POST /api/contact`. The server sends plain-text enquiries to [Mailpit](https://mailpit.axllent.org/docs/), a local development inbox. Success appears only after the inbox accepts the request. Failed submissions keep the entered text, and the Send button is disabled while a request is pending.
-
-Start or update the development services:
-
-```bash
-docker compose up -d
-```
-
-1. Open [Contact](http://localhost:3000/contact) and submit a test enquiry.
-2. Open [the local inbox](http://localhost:8025) to read it.
-
-The inbox uses a Docker volume, so messages survive container restarts. Its web interface is bound to your local machine. The configured `apollo.example` addresses are test addresses; no email is sent to the real company.
-
-For development outside Docker, start the inbox with `docker compose up -d mailpit`, copy `.env.example` to `.env.local`, and run `npm run dev`. Compose sets `MAILPIT_URL=http://mailpit:8025` for its app container; `.env.example` uses `http://localhost:8025` for a host-run app. Neither variable is public.
-
-**Production delivery:** Production uses Resend when `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, and `CONTACT_TO_EMAIL` are configured. The recipient and sender come from server settings; the visitor's email is used only as Reply-To. The message is plain text. Missing settings, rejected requests, and malformed provider responses produce an unavailable response. Success means the provider accepted the message for delivery; it does not confirm inbox arrival. Development always uses Mailpit, even when Resend settings exist.
-
-Run contact validation and delivery tests with `npm test` (Node.js 22.18 or newer). Run `npm run lint` for lint checks.
-
-## Run with Docker
-
-### Development
-
-Start the development server with hot reload:
-
-```bash
-docker compose up --build
-```
-
-Open [http://localhost:3000](http://localhost:3000). Stop it with `Ctrl+C`, or run `docker compose down`.
-
-Docker development uses Webpack with file polling so edits on the Windows host are detected inside the container. After changing `docker-compose.yml`, run `docker compose up -d` to apply the updated configuration.
-
-### Production image
-
-Build and run the optimized standalone image:
-
-```bash
-docker build --build-arg SITE_URL=https://your-project.example -t energy-management .
-docker run --rm -p 3000:3000 --env-file .env.production.local energy-management
-```
-
-The Dockerfile uses a multi-stage build and runs the standalone server as a non-root user. Replace the example build URL with your actual origin. Create an ignored `.env.production.local` containing the three email settings for this command; pass credentials at runtime, never as image build arguments.
-
-## Deploy on Vercel
-
-`next.config.ts` enables standalone output for Docker and disables it when Vercel sets `VERCEL=1`. This avoids the Next.js 16.3 adapter/standalone conflict that can fail with a missing `.next/next-server.js.nft.json` file.
-
-**Current deployment choice:** Contact submissions stay local in Mailpit. Deploy with no email environment variables; the public form will show a delivery-unavailable message. The Resend setup below is optional if live email is wanted later.
-
-1. Commit this batch in GitHub Desktop, then click **Push origin**.
-2. In [Vercel New Project](https://vercel.com/new), import `ApoPanagiotidis/energy-management`. Use the Next.js preset, repository root, and Node.js 22.x or newer. Keep the detected install/build/output settings. Vercel builds Next.js directly; Docker Compose and Mailpit remain local tools.
-3. For the current local-only setup, leave environment variables empty. If enabling live email later, create a [Resend account](https://resend.com/) and a sending API key, then add the following variables to the Vercel project's **Production** environment:
-
-| Variable | Value |
-| --- | --- |
-| `RESEND_API_KEY` | Your private sending API key |
-| `CONTACT_FROM_EMAIL` | `onboarding@resend.dev` for the assignment demonstration |
-| `CONTACT_TO_EMAIL` | The email address used to register your Resend account |
-| `SITE_URL` | Optional: your full public origin; otherwise use Vercel's automatic domain |
-
-The Resend test sender can send only to your account address. To use another recipient, verify a domain you control and set a sender on that domain. See [Resend's test-domain restriction](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain) and [sending API](https://resend.com/docs/api-reference/emails/send-email). Never use the real company's address or domain unless you have its permission. Keep credentials in Vercel settings or ignored local env files, not GitHub or client-facing variables.
-
-4. Deploy. After changing environment variables, redeploy for the changes to take effect. Preview deployments need their own email settings to send; leaving them unset keeps the form unavailable there.
-5. Open the deployed Home, Products, About, and Contact pages on desktop and mobile. Submit a clearly labelled test enquiry to your own configured inbox and confirm receipt. Also try an invalid email and a short message.
-6. Check `/opengraph-image`, `/sitemap.xml`, and page-source canonical/social URLs. Confirm none point to localhost. Open the production link in a private browser window to confirm the reviewer can access it.
-7. Replace the **Live demo** line at the top of this README with the verified URL. Confirm the GitHub repository is public, as required by the assignment, then commit and push that final documentation update.
-
-## Scope and remaining checks
-
-This is an assignment demonstration, not the company's official website. It contains no live energy telemetry, CMS, customer accounts, or fabricated performance statistics. Team cards use initials, and company/product sources are linked above.
-
-Local email tests use Mailpit. Resend integration tests use mocked responses; actual inbox delivery and the public deployment must be verified after account configuration. The API validates fields and caps accepted payload size, but this demonstration does not include a distributed rate limiter or CAPTCHA. Configure abuse protection before using the form as an actively promoted public contact channel.
+This repository is an assignment demonstration, not the company's official website. It does not include live energy telemetry, a CMS, customer accounts, or invented savings statistics. The public contact form does not deliver messages under the selected local-only configuration. Distributed rate limiting and CAPTCHA are outside the current implementation.
