@@ -133,9 +133,13 @@ The Dockerfile uses a multi-stage build and runs the standalone server as a non-
 
 ## Deploy on Vercel
 
+`next.config.ts` enables standalone output for Docker and disables it when Vercel sets `VERCEL=1`. This avoids the Next.js 16.3 adapter/standalone conflict that can fail with a missing `.next/next-server.js.nft.json` file.
+
+**Current deployment choice:** Contact submissions stay local in Mailpit. Deploy with no email environment variables; the public form will show a delivery-unavailable message. The Resend setup below is optional if live email is wanted later.
+
 1. Commit this batch in GitHub Desktop, then click **Push origin**.
 2. In [Vercel New Project](https://vercel.com/new), import `ApoPanagiotidis/energy-management`. Use the Next.js preset, repository root, and Node.js 22.x or newer. Keep the detected install/build/output settings. Vercel builds Next.js directly; Docker Compose and Mailpit remain local tools.
-3. Create a [Resend account](https://resend.com/) and a sending API key. Add the following variables to the Vercel project's **Production** environment:
+3. For the current local-only setup, leave environment variables empty. If enabling live email later, create a [Resend account](https://resend.com/) and a sending API key, then add the following variables to the Vercel project's **Production** environment:
 
 | Variable | Value |
 | --- | --- |
