@@ -41,9 +41,9 @@ export function SiteHeader() {
         <Link
           href="/contact"
           aria-current={pathname === "/contact" ? "page" : undefined}
-          className="hidden min-h-11 items-center gap-2 rounded-lg border border-white px-4 text-sm font-semibold text-white transition-colors hover:border-accent hover:bg-accent hover:text-ink aria-[current=page]:border-accent aria-[current=page]:bg-accent aria-[current=page]:text-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent lg:inline-flex"
+          className="action-link action-button hidden min-h-11 items-center gap-2 rounded-lg border border-white px-4 text-sm font-semibold text-white hover:border-accent hover:bg-accent hover:text-ink aria-[current=page]:border-accent aria-[current=page]:bg-accent aria-[current=page]:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent lg:inline-flex"
         >
-          Get in touch <ArrowUpRight size={16} aria-hidden="true" />
+          Get in touch <ArrowUpRight className="action-arrow" size={16} aria-hidden="true" />
         </Link>
       </div>
     </header>

@@ -26,11 +26,11 @@ export function ProductCard({ product }: { product: Product }) {
         ))}
       </dl>
       <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
-        <Link href="/contact" aria-label={`Enquire about ${product.name}`} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white transition-colors hover:bg-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
-          Enquire <ArrowUpRight size={16} aria-hidden="true" />
+        <Link href="/contact" aria-label={`Enquire about ${product.name}`} className="action-link action-button inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+          Enquire <ArrowUpRight className="action-arrow" size={16} aria-hidden="true" />
         </Link>
-        <a href={product.sourceUrl} aria-label={`Full specifications for ${product.name} on Apollo’s website`} className="inline-flex min-h-11 items-center gap-1 rounded text-sm text-brand underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
-          Full specifications <ArrowUpRight size={16} aria-hidden="true" />
+        <a href={product.sourceUrl} aria-label={`Full specifications for ${product.name} on Apollo’s website`} className="action-link inline-flex min-h-11 items-center gap-1 rounded text-sm text-brand underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+          Full specifications <ArrowUpRight className="action-arrow" size={16} aria-hidden="true" />
         </a>
       </div>
     </article>

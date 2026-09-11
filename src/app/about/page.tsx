@@ -67,7 +67,7 @@ export default function AboutPage() {
       <section aria-labelledby="about-contact-heading" className="bg-accent">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-7 px-6 py-14 sm:py-16 lg:flex-row lg:items-center lg:px-8">
           <h2 id="about-contact-heading" className="max-w-xl text-3xl leading-tight font-medium tracking-tight text-balance text-brand">Let’s talk about what comes next for your facility.</h2>
-          <Link href="/contact" className="inline-flex min-h-12 shrink-0 items-center gap-3 rounded-full bg-brand px-6 text-sm font-semibold text-white transition-colors hover:bg-ink motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">Talk to our team <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          <Link href="/contact" className="action-link action-button inline-flex min-h-12 shrink-0 items-center gap-3 rounded-full bg-brand px-6 text-sm font-semibold text-white hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">Talk to our team <ArrowUpRight className="action-arrow" size={18} aria-hidden="true" /></Link>
         </div>
       </section>
     </>

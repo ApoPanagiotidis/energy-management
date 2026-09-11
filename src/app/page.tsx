@@ -85,15 +85,15 @@ export default function Home() {
             <div className="mt-9 flex flex-wrap gap-4">
               <Link
                 href="/products"
-                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-6 text-sm font-semibold text-ink transition-colors hover:bg-white motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                className="action-link action-button inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-6 text-sm font-semibold text-ink hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
               >
-                Explore our solutions <ArrowUpRight size={18} aria-hidden="true" />
+                Explore our solutions <ArrowUpRight className="action-arrow" size={18} aria-hidden="true" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/60 px-6 text-sm font-semibold text-white transition-colors hover:border-accent hover:text-accent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                className="action-link action-button inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/60 px-6 text-sm font-semibold text-white hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
               >
-                Talk to our team <ArrowRight size={18} aria-hidden="true" />
+                Talk to our team <ArrowRight className="action-arrow action-arrow-right" size={18} aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -147,8 +147,8 @@ export default function Home() {
                 The tools and expertise<br className="hidden sm:block" /> to move you forward.
               </h2>
             </div>
-            <Link href="/products" className="inline-flex min-h-11 w-fit shrink-0 items-center gap-2 rounded text-sm font-semibold text-brand underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
-              Explore all solutions <ArrowUpRight size={18} aria-hidden="true" />
+            <Link href="/products" className="action-link inline-flex min-h-11 w-fit shrink-0 items-center gap-2 rounded text-sm font-semibold text-brand underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+              Explore all solutions <ArrowUpRight className="action-arrow" size={18} aria-hidden="true" />
             </Link>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -181,8 +181,8 @@ export default function Home() {
               the right approach to energy monitoring.
             </p>
           </div>
-          <Link href="/contact" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-full bg-accent px-7 text-sm font-semibold text-brand transition-colors hover:bg-white motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
-            Start a conversation <ArrowUpRight size={18} aria-hidden="true" />
+          <Link href="/contact" className="action-link action-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-full bg-accent px-7 text-sm font-semibold text-brand hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+            Start a conversation <ArrowUpRight className="action-arrow" size={18} aria-hidden="true" />
           </Link>
         </div>
       </section>

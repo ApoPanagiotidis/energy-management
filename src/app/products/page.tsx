@@ -41,8 +41,8 @@ export default function ProductsPage() {
             <p className="font-mono text-xs tracking-widest text-accent uppercase">Beyond the meter</p>
             <h2 id="system-heading" className="mt-4 text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl">Connect the hardware.<br />See the whole picture.</h2>
             <p className="mt-5 max-w-lg leading-7 text-white/80">Apollo’s energy management approach connects meters, solar installations, batteries, and equipment with a central dashboard for understanding energy use.</p>
-            <Link href="/contact" className="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-accent px-6 text-sm font-semibold text-ink transition-colors hover:bg-white motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
-              Discuss your system <ArrowUpRight size={18} aria-hidden="true" />
+            <Link href="/contact" className="action-link action-button mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-accent px-6 text-sm font-semibold text-ink hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+              Discuss your system <ArrowUpRight className="action-arrow" size={18} aria-hidden="true" />
             </Link>
           </div>
           <ul className="divide-y divide-white/20 border-y border-white/20">

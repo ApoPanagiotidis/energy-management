@@ -14,3 +14,47 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+
+@layer components {
+  .action-link {
+    transition: color 180ms ease-out, background-color 180ms ease-out,
+      border-color 180ms ease-out, transform 150ms ease-out;
+  }
+
+  .action-arrow {
+    flex-shrink: 0;
+    --arrow-x: 2px;
+    --arrow-y: -2px;
+  }
+
+  .action-arrow-right {
+    --arrow-y: 0px;
+  }
+
+  /* Opt into movement only when the visitor has not requested reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .action-arrow {
+      transition: transform 180ms ease-out;
+    }
+
+    .action-link:not(:disabled):focus-visible .action-arrow {
+      transform: translate(var(--arrow-x), var(--arrow-y));
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .action-link:not(:disabled):hover .action-arrow {
+        transform: translate(var(--arrow-x), var(--arrow-y));
+      }
+    }
+
+    .action-button:not(:disabled):active {
+      transform: scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .action-link {
+      transition: none;
+    }
+  }
+}
