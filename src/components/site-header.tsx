@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { Brand } from "@/components/brand";
@@ -8,6 +9,41 @@ import { navigation } from "@/lib/navigation";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+  const previousPath = useRef(pathname);
+
+  useLayoutEffect(() => {
+    const previous = previousPath.current;
+    previousPath.current = pathname;
+    if (previous === pathname) return;
+
+    const nav = navRef.current;
+    const underline = nav?.querySelector<HTMLElement>("[data-nav-underline]");
+    const previousLink = Array.from(nav?.querySelectorAll("a") ?? [])
+      .find((link) => link.getAttribute("href") === previous);
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!underline || !previousLink || preference.matches) return;
+
+    const from = previousLink.getBoundingClientRect();
+    const to = underline.getBoundingClientRect();
+    // Contact lives in the mobile menu but is hidden behind the desktop CTA.
+    // Hidden links and first visits should never animate from an empty position.
+    if (!from.width || !to.width) return;
+
+    const animation = underline.animate([
+      { transform: `translateX(${from.left - to.left}px) scaleX(${from.width / to.width})` },
+      { transform: "none" },
+    ], { duration: 220, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+
+    const settle = () => animation.cancel();
+    window.addEventListener("resize", settle);
+    preference.addEventListener("change", settle);
+    return () => {
+      animation.cancel();
+      window.removeEventListener("resize", settle);
+      preference.removeEventListener("change", settle);
+    };
+  }, [pathname]);
 
   return (
     <header id="site-top" tabIndex={-1} className="border-b border-white/25 bg-ink text-white">
@@ -19,20 +55,23 @@ export function SiteHeader() {
         >
           <Brand />
         </Link>
-        <nav aria-label="Main navigation" className="order-last w-full md:order-none md:w-auto">
+        <nav ref={navRef} aria-label="Main navigation" className="order-last w-full md:order-none md:w-auto">
           <ul className="flex items-center justify-between gap-2 md:gap-6">
             {navigation.map(({ label, href }) => (
               <li key={href} className={href === "/contact" ? "lg:hidden" : undefined}>
                 <Link
                   href={href}
                   aria-current={pathname === href ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center border-b-2 px-1 text-sm font-medium transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
+                  className={`relative inline-flex min-h-11 items-center border-b-2 border-transparent px-1 text-sm font-medium transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
                     pathname === href
-                      ? "border-accent text-accent"
-                      : "border-transparent text-white hover:border-accent hover:text-accent"
+                      ? "text-accent"
+                      : "text-white hover:text-accent"
                   }`}
                 >
                   {label}
+                  {pathname === href && (
+                    <span data-nav-underline aria-hidden="true" className="pointer-events-none absolute -bottom-0.5 inset-x-0 h-0.5 origin-left bg-accent" />
+                  )}
                 </Link>
               </li>
             ))}

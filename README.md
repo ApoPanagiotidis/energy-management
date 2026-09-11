@@ -31,6 +31,7 @@ A responsive B2B website presenting energy monitoring hardware, software, and ex
 | `/contact` — Contact | Name, email, and message form with validation, pending feedback, success messages, and recoverable errors |
 
 - Responsive layouts with shared branding and an active-page indicator.
+- The navigation underline slides between active links in 220 ms, including Contact on mobile. It appears immediately on first load, stays aligned when resizing, and switches instantly with reduced motion.
 - A desktop **Get in touch** button and mobile **Contact** navigation link; footer navigation contains Home, Products, and About.
 - Framer Motion scroll reveals and CSS button interactions that respect reduced-motion preferences. Page backgrounds remain visible and stationary during loading and navigation.
 - CTA and specification-link arrows move 2 px on hover or keyboard focus over 180 ms. Buttons press to 98% size over 150 ms, including on touch screens. Reduced motion disables movement, and the contact button stays still while sending.
