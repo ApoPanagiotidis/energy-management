@@ -49,12 +49,15 @@ export default function AboutPage() {
           <p className="font-mono text-xs tracking-widest text-brand uppercase">The people behind Apollo</p>
           <h2 id="team-heading" className="mt-4 text-3xl font-medium tracking-tight text-brand sm:text-4xl">Meet our team.</h2>
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map(({ name, role, initials }) => (
+            {team.map(({ name, role, initials }, index) => (
               <li key={name}>
-                <Reveal className="h-full rounded-2xl border border-brand/20 p-6">
-                <div aria-hidden="true" className="flex size-16 items-center justify-center rounded-2xl bg-accent font-mono text-xl text-brand">{initials}</div>
-                <h3 className="mt-6 text-xl font-semibold tracking-tight text-brand">{name}</h3>
-                <p className="mt-2 text-sm leading-6">{role}</p>
+                <Reveal
+                  delay={{ sm: (index % 2) * 0.08, lg: (index % 3) * 0.08 }}
+                  className="h-full rounded-2xl border border-brand/20 p-6"
+                >
+                  <div aria-hidden="true" className="flex size-16 items-center justify-center rounded-2xl bg-accent font-mono text-xl text-brand">{initials}</div>
+                  <h3 className="mt-6 text-xl font-semibold tracking-tight text-brand">{name}</h3>
+                  <p className="mt-2 text-sm leading-6">{role}</p>
                 </Reveal>
               </li>
             ))}

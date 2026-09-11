@@ -27,7 +27,11 @@ export default function ProductsPage() {
             <p className="font-mono text-xs text-brand">{products.length} products · KDK hardware</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
-            {products.map((product) => <Reveal key={product.id}><ProductCard product={product} /></Reveal>)}
+            {products.map((product, index) => (
+              <Reveal key={product.id} delay={{ lg: (index % 2) * 0.08 }}>
+                <ProductCard product={product} />
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
