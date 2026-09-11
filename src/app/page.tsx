@@ -68,7 +68,7 @@ export default function Home() {
   return (
     <div>
       <section aria-labelledby="hero-heading" className="bg-ink text-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
+        <div className="mx-auto grid max-w-6xl items-start gap-12 px-6 py-12 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-8">
           <div>
             <p className="font-mono text-xs leading-6 tracking-widest text-accent uppercase">
               Energy intelligence for industry

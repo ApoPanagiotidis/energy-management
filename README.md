@@ -32,7 +32,7 @@ A responsive B2B website presenting energy monitoring hardware, software, and ex
 
 - Responsive layouts with shared branding and an active-page indicator.
 - A desktop **Get in touch** button and mobile **Contact** navigation link; footer navigation contains Home, Products, and About.
-- Framer Motion scroll reveals, page entry transitions, and button interactions that respect reduced-motion preferences.
+- Framer Motion scroll reveals and button interactions that respect reduced-motion preferences. Page backgrounds remain visible and stationary during loading and navigation.
 - Visible keyboard focus, a skip-to-content link, an accessible Back to top link, and announced form errors.
 - Page-specific titles, descriptions, canonical URLs, Open Graph and Twitter metadata, a branded social image, sitemap, and robots rules.
 
@@ -43,7 +43,7 @@ A responsive B2B website presenting energy monitoring hardware, software, and ex
 | Next.js 16 App Router + React 19 | Routing, server-rendered pages, metadata, and contact API |
 | TypeScript | Typed content, components, and validation |
 | Tailwind CSS 4 | Responsive layouts and shared colour tokens |
-| Framer Motion | Scroll reveals, page transitions, and microinteractions |
+| Framer Motion | Scroll reveals and microinteractions |
 | Lucide React | Interface and feature icons |
 | Docker Compose + Mailpit | Local development and a test inbox |
 | Node.js test runner + ESLint | Validation/delivery tests and code checks |
@@ -131,7 +131,7 @@ src/
     contact/page.tsx         Contact page
     api/contact/route.ts     Validated submission endpoint
     layout.tsx               Shared layout, fonts, and metadata base
-    template.tsx             Page entry transition
+    template.tsx             Stable page wrapper
     globals.css              Tailwind theme and brand colours
     opengraph-image.tsx       Generated social preview
     robots.ts / sitemap.ts   Search engine metadata
