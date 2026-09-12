@@ -125,8 +125,8 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {benefits.map(({ title, description, icon: Icon }) => (
-              <Reveal key={title}>
+            {benefits.map(({ title, description, icon: Icon }, index) => (
+              <Reveal key={title} delay={{ md: index * 0.08 }}>
                 <article className="border-t border-brand/25 pt-7">
                   <Icon size={28} className="text-brand" aria-hidden="true" />
                   <h3 className="mt-5 text-xl font-semibold tracking-tight text-brand">{title}</h3>
@@ -152,8 +152,8 @@ export default function Home() {
             </Link>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {solutions.map(({ number, title, category, description, icon: Icon }) => (
-              <Reveal key={title}>
+            {solutions.map(({ number, title, category, description, icon: Icon }, index) => (
+              <Reveal key={title} delay={{ md: index * 0.08 }}>
                 <article className="h-full rounded-2xl border border-brand/20 bg-white p-7 transition-colors hover:border-brand motion-reduce:transition-none">
                   <div className="flex items-center justify-between text-brand">
                     <Icon size={32} aria-hidden="true" />

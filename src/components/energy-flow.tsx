@@ -17,9 +17,10 @@ export function EnergyFlow() {
   const hasPlayed = useRef(false);
 
   useEffect(() => {
-    if (!inView || reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches || hasPlayed.current) return;
+    if (!inView || hasPlayed.current) return;
 
     hasPlayed.current = true;
+    if (reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const sequence: AnimationSequence = [];
     steps.forEach((_, index) => {
       sequence.push([
