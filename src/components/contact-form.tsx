@@ -3,6 +3,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import { contactLimits, validateContact, type ContactErrors, type ContactFields } from "@/lib/contact";
+import styles from "./contact-form.module.css";
 
 const emptyFields: ContactFields = { name: "", email: "", message: "" };
 const inputClass = "mt-2 w-full rounded-xl border border-brand/60 bg-white px-4 py-3 text-base text-ink placeholder:text-ink/60 focus:border-brand focus:outline-2 focus:outline-offset-2 focus:outline-brand aria-invalid:border-red-700 disabled:opacity-60";
@@ -10,6 +11,7 @@ const inputClass = "mt-2 w-full rounded-xl border border-brand/60 bg-white px-4 
 export function ContactForm() {
   const [values, setValues] = useState<ContactFields>(emptyFields);
   const [errors, setErrors] = useState<ContactErrors>({});
+  const [validationAttempt, setValidationAttempt] = useState(0);
   const [pending, setPending] = useState(false);
   const [feedback, setFeedback] = useState<{ success: boolean; message: string } | null>(null);
   const sending = useRef(false);
@@ -22,6 +24,8 @@ export function ContactForm() {
   }
 
   function showErrors(fieldErrors: ContactErrors) {
+    // Replay feedback on another invalid submission, even if the text is unchanged.
+    setValidationAttempt((attempt) => attempt + 1);
     setErrors(fieldErrors);
     setFeedback({ success: false, message: "Please check the highlighted fields." });
     const first = (["name", "email", "message"] as const).find((field) => fieldErrors[field]);
@@ -80,30 +84,30 @@ export function ContactForm() {
         <div>
           <label htmlFor="contact-name" className="text-sm font-semibold">Name</label>
           <input id="contact-name" name="name" autoComplete="name" required maxLength={contactLimits.name} value={values.name} onChange={(event) => update("name", event.target.value)} disabled={pending} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} className={inputClass} />
-          {errors.name && <p id="name-error" className="mt-2 text-sm text-red-700">{errors.name}</p>}
+          {errors.name && <p key={validationAttempt} id="name-error" className={`${styles.message} mt-2 text-sm text-red-700`}>{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="contact-email" className="text-sm font-semibold">Email address</label>
           <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={contactLimits.email} value={values.email} onChange={(event) => update("email", event.target.value)} disabled={pending} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} className={inputClass} />
-          {errors.email && <p id="email-error" className="mt-2 text-sm text-red-700">{errors.email}</p>}
+          {errors.email && <p key={validationAttempt} id="email-error" className={`${styles.message} mt-2 text-sm text-red-700`}>{errors.email}</p>}
         </div>
         <div>
           <label htmlFor="contact-message" className="text-sm font-semibold">Message</label>
           <textarea id="contact-message" name="message" required minLength={10} maxLength={contactLimits.message} rows={6} value={values.message} onChange={(event) => update("message", event.target.value)} disabled={pending} aria-invalid={Boolean(errors.message)} aria-describedby={`message-hint${errors.message ? " message-error" : ""}`} className={`${inputClass} min-h-40 resize-y`} />
           <p id="message-hint" className="mt-2 text-xs leading-5 text-ink/70">Include your facility type, the product you’re interested in, or what you’d like to improve. 10–3,000 characters.</p>
-          {errors.message && <p id="message-error" className="mt-2 text-sm text-red-700">{errors.message}</p>}
+          {errors.message && <p key={validationAttempt} id="message-error" className={`${styles.message} mt-2 text-sm text-red-700`}>{errors.message}</p>}
         </div>
-      </div>
-      <div aria-live="polite" aria-atomic="true">
-        {feedback && <p className={`mt-6 flex items-start gap-3 rounded-xl p-4 text-sm leading-6 ${feedback.success ? "bg-accent text-ink" : "border border-red-700 text-red-700"}`}>
-          {feedback.success && <CheckCircle2 size={20} className="mt-0.5 shrink-0" aria-hidden="true" />}
-          {feedback.message}
-        </p>}
       </div>
       <button type="submit" disabled={pending} className="action-link action-button mt-7 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-brand px-7 text-sm font-semibold text-white hover:enabled:bg-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand disabled:cursor-wait disabled:opacity-60 sm:w-auto">
         {pending ? "Sending…" : "Send message"}
         {pending ? <LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <ArrowUpRight size={18} className="action-arrow" aria-hidden="true" />}
       </button>
+      <div aria-live="polite" aria-atomic="true" className={styles.feedback}>
+        {feedback && <p key={`${validationAttempt}-${feedback.success}-${feedback.message}`} className={`${styles.message} flex items-start gap-3 rounded-xl p-4 text-sm leading-6 ${feedback.success ? "bg-accent text-ink" : "border border-red-700 text-red-700"}`}>
+          {feedback.success && <CheckCircle2 size={20} className="mt-0.5 shrink-0" aria-hidden="true" />}
+          {feedback.message}
+        </p>}
+      </div>
       <noscript><p className="mt-4 text-sm">Please enable JavaScript to submit this form.</p></noscript>
     </form>
   );

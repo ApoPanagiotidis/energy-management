@@ -1,0 +1,22 @@
+.feedback {
+  /* Leave room for ordinary responses, while allowing longer text to wrap. */
+  min-height: 6rem;
+  margin-top: 1.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .message {
+    animation: feedback-enter 180ms ease-out;
+  }
+}
+
+@keyframes feedback-enter {
+  from {
+    opacity: 0.65;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

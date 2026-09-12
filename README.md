@@ -6,7 +6,7 @@
 
 A responsive B2B website presenting energy monitoring hardware, software, and expertise for industrial and commercial facilities. Built as a web developer assignment using Apollo Green Solutions branding and company information.
 
-**[View the live demo](https://energy-management-rosy.vercel.app)** · **[GitHub repository](https://github.com/ApoPanagiotidis/energy-management)**
+**[View the live demo](https://apollo-green-solutions.vercel.app)** · **[GitHub repository](https://github.com/ApoPanagiotidis/energy-management)**
 
 > **Contact delivery is local only.** Run the project with Docker to submit enquiries to Mailpit. The public website displays the form and validates inputs, but valid submissions return a delivery-unavailable message because live email is not configured.
 
@@ -35,6 +35,7 @@ A responsive B2B website presenting energy monitoring hardware, software, and ex
 - A desktop **Get in touch** button and mobile **Contact** navigation link; footer navigation contains Home, Products, and About.
 - Framer Motion scroll reveals and CSS button interactions that respect reduced-motion preferences. Page backgrounds remain visible and stationary during loading and navigation.
 - CTA and specification-link arrows move 2 px on hover or keyboard focus over 180 ms. Buttons press to 98% size over 150 ms, including on touch screens. Reduced motion disables movement, and the contact button stays still while sending.
+- Contact-form result messages gently fade and rise 4 px over 180 ms below the submit button, with space reserved for ordinary responses. Longer messages can wrap freely. Field errors use the same entrance and replay on repeated invalid submissions. Validation focus and live announcements remain immediate; reduced motion skips the entrance animation.
 - Product and team cards reveal once as they enter view, with an 80 ms stagger across each row. Delays adapt to the two-column product grid and two-/three-column team grid; single-column mobile cards have no extra delay. Reduced motion skips both movement and delay.
 - The energy-flow diagram highlights Measure, Understand, and Improve in order, with a small arrow movement between steps. The three-second sequence plays once per page visit when most of the diagram enters view, and is disabled with reduced motion. All text and the blue background remain visible throughout.
 - Visible keyboard focus, a skip-to-content link, an accessible Back to top link, and announced form errors.
