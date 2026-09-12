@@ -31,6 +31,11 @@
     --arrow-y: 0px;
   }
 
+  .action-arrow-up {
+    --arrow-x: 0px;
+    --arrow-y: -3px;
+  }
+
   /* Opt into movement only when the visitor has not requested reduced motion. */
   @media (prefers-reduced-motion: no-preference) {
     .action-arrow {

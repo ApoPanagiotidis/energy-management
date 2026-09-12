@@ -41,8 +41,8 @@ export function SiteFooter() {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-white/20 py-5">
           <p className="text-sm font-medium text-accent">Make every watt count.</p>
-          <a href="#site-top" className="inline-flex min-h-11 items-center gap-2 rounded text-sm text-white/80 transition-colors hover:text-accent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
-            Back to top <ArrowUp size={16} aria-hidden="true" />
+          <a href="#site-top" className="action-link inline-flex min-h-11 items-center gap-2 rounded text-sm text-white/80 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+            Back to top <ArrowUp className="action-arrow action-arrow-up" size={16} aria-hidden="true" />
           </a>
         </div>
       </div>

@@ -39,6 +39,7 @@ A responsive B2B website presenting energy monitoring hardware, software, and ex
 - Product and team cards reveal once as they enter view, with an 80 ms stagger across each row. Delays adapt to the two-column product grid and two-/three-column team grid; single-column mobile cards have no extra delay. Reduced motion skips both movement and delay.
 - The energy-flow diagram highlights Measure, Understand, and Improve in order, with a small arrow movement between steps. The three-second sequence plays once per page visit when most of the diagram enters view, and is disabled with reduced motion. All text and the blue background remain visible throughout.
 - Visible keyboard focus, a skip-to-content link, an accessible Back to top link, and announced form errors.
+- The Back to top arrow rises 3 px on hover or keyboard focus over 180 ms and returns smoothly afterward. Reduced motion disables the movement; activating the link still returns focus to the header.
 - Page-specific titles, descriptions, canonical URLs, Open Graph and Twitter metadata, a branded social image, sitemap, and robots rules.
 
 ## Technology and design
